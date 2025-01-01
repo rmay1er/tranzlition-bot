@@ -3,27 +3,35 @@ name: Deploy Telegram Bot
 on:
   push:
     branches:
-      - main # или master, в зависимости от вашей основной ветки
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: npm ci
-
+        
+      - name: Debug SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ls -la ~/.ssh/deploy_key
+          # Проверим первые и последние строки ключа (без вывода самого ключа)
+          head -n 1 ~/.ssh/deploy_key
+          tail -n 1 ~/.ssh/deploy_key
+      
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          debug: true
           script: |
-            cd /JavaScript/tts_bot
+            cd /path/to/your/project
             git pull origin main
             npm ci
-            pm2 restart tts-bot
+            pm2 restart your-bot-name
