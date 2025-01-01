@@ -15,7 +15,7 @@
     "source-map-support": "^0.5.21"
   },
   "name": "tts_bot",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "main": "bot.js",
   "devDependencies": {},
   "keywords": [],

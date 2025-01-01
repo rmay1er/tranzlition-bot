@@ -1,23 +1,33 @@
 export const lastMsgMiddleware = async (ctx, next) => {
-	// Добавляем метод editLastMessage в ctx
 	ctx.editLastMessage = async (text, options = {}) => {
-		if (ctx.session.lastMessage) {
-			await ctx.api.editMessageText(
-				ctx.chat.id,
-				ctx.session.lastMessage.id,
-				text,
-				options
-			)
-		} else {
-			console.error('no lastMessageId')
+		try {
+			if (ctx.session.lastMessage?.id) {
+				await ctx.api.editMessageText(
+					ctx.chat.id,
+					ctx.session.lastMessage.id,
+					text,
+					options
+				)
+			} else {
+				console.error('Отсутствует ID последнего сообщения')
+			}
+		} catch (error) {
+			console.error('Ошибка при редактировании сообщения')
+			throw error
 		}
 	}
 
-	// Добавляем метод deleteLastMessage в ctx
 	ctx.deleteLastMessage = async () => {
-		if (ctx.session.lastMessage) {
-			await ctx.api.deleteMessage(ctx.chat.id, ctx.session.lastMessage.id)
-			ctx.session.lastMessage.id = null // Сбрасываем ID сообщения
+		try {
+			if (ctx.session.lastMessage?.id) {
+				await ctx.api.deleteMessage(ctx.chat.id, ctx.session.lastMessage.id)
+				ctx.session.lastMessage.id = null // Сбрасываем ID сообщения
+			} else {
+				console.error('Отсутствует ID последнего сообщения для удаления')
+			}
+		} catch (error) {
+			console.error('Ошибка при удалении сообщения')
+			throw error
 		}
 	}
 
