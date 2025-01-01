@@ -13,23 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ls -la ~/.ssh/deploy_key
-          # Проверим первые и последние строки ключа (без вывода самого ключа)
-          head -n 1 ~/.ssh/deploy_key
-          tail -n 1 ~/.ssh/deploy_key
-
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          debug: true
           script: |
             cd /JavaScript/tts_bot
             git pull origin main
