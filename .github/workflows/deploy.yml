@@ -8,11 +8,11 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Debug SSH key
         run: |
           mkdir -p ~/.ssh
@@ -22,7 +22,7 @@ jobs:
           # Проверим первые и последние строки ключа (без вывода самого ключа)
           head -n 1 ~/.ssh/deploy_key
           tail -n 1 ~/.ssh/deploy_key
-      
+
       - name: Deploy to server
         uses: appleboy/ssh-action@master
         with:
@@ -31,7 +31,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           debug: true
           script: |
-            cd /path/to/your/project
+            cd /JavaScript/tts_bot
             git pull origin main
             npm ci
-            pm2 restart your-bot-name
+            pm2 restart tts-bot
