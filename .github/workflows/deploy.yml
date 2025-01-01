@@ -1,26 +1,39 @@
-name: Deploy Telegram Bot
+name: Deploy to Server
 
 on:
   push:
     branches:
-      - main
+      - main  # Замените на вашу основную ветку, если необходимо
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: './*'
+          target: '/JavaScript/tts_bot'  # Замените на путь к вашему проекту на сервере
+
+      - name: Install dependencies and restart PM2
+        uses: appleboy/ssh-action@v0.1.0
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /JavaScript/tts_bot
-            git pull origin main
-            npm ci
+            cd /JavaScript
+            npm install
             pm2 restart tts-bot
