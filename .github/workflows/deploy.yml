@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /JavaScript/tts_bot
+            cd ./JavaScript/tts_bot
             git pull origin main
             npm ci
             pm2 restart tts-bot
