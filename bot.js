@@ -123,6 +123,27 @@ const handleStartCommand = async (ctx) => {
   ctx.session.lastMessage = { isStart: true, id: lastStartMessage.message_id };
 };
 
+async function getAiRessponse(ctx, response) {
+  const text = await handleGenerateText(
+    ctx,
+    instructions.translator,
+    `My language is ${ctx.from.language_code}, please translate my response: ${response} to ${ctx.session.langToTranslate.name} language`,
+  );
+  const stageKeyboard = new InlineKeyboard().text("Озвучить 🔊", "tts");
+  // .row()
+  // .text('Получить ответ 🗣️', 'answer')
+  const formatedText = `🗣️ You:\n<code>${response}</code>\n\n${ctx.session.langToTranslate.flag} Translate:\n<code>${text}</code>`;
+  const lastTranslatedMessage = await ctx.reply(formatedText, {
+    reply_markup: stageKeyboard,
+    parse_mode: "HTML",
+  });
+  ctx.session.lastMessage = {
+    translatedText: text,
+    fullText: formatedText,
+    id: lastTranslatedMessage.message_id,
+  };
+}
+
 const handleCallbackQuery = async (ctx) => {
   try {
     const data = ctx.callbackQuery.data;
@@ -152,7 +173,7 @@ const handleCallbackQuery = async (ctx) => {
   }
 };
 
-const handleVoiceMessage = async (ctx) => {
+const handleMessage = async (ctx) => {
   if (!ctx.session.langToTranslate) {
     try {
       const text = await handleGenerateText(
@@ -188,32 +209,24 @@ const handleVoiceMessage = async (ctx) => {
       }
     }
     ctx.session.lastMessage = { isStart: false, id: null };
-    const fileInfo = await ctx.api.getFile(ctx.message.voice.file_id);
-    const response = await voiceToSpeech.getWhisperResponse(fileInfo.file_path);
-    const text = await handleGenerateText(
-      ctx,
-      instructions.translator,
-      `My language is ${ctx.from.language_code}, please translate my response: ${response} to ${ctx.session.langToTranslate.name} language`,
-    );
-    const stageKeyboard = new InlineKeyboard().text("Озвучить 🔊", "tts");
-    // .row()
-    // .text('Получить ответ 🗣️', 'answer')
-    const formatedText = `🗣️ You:\n<code>${response}</code>\n\n${ctx.session.langToTranslate.flag} Translate:\n<code>${text}</code>`;
-    const lastTranslatedMessage = await ctx.reply(formatedText, {
-      reply_markup: stageKeyboard,
-      parse_mode: "HTML",
-    });
-    ctx.session.lastMessage = {
-      translatedText: text,
-      fullText: formatedText,
-      id: lastTranslatedMessage.message_id,
-    };
+    try {
+      const fileInfo = ctx.message.voice
+        ? await ctx.api.getFile(ctx.message.voice.file_id)
+        : null;
+      const response = fileInfo
+        ? await voiceToSpeech.getWhisperResponse(fileInfo.file_path)
+        : ctx.message.text;
+      await getAiRessponse(ctx, response);
+    } catch (error) {
+      console.error("Ошибка при обработке голосового сообщения:", error);
+    }
   }
 };
 
 bot.command("start", handleStartCommand);
 bot.on("callback_query:data", handleCallbackQuery);
-bot.on(":voice", handleVoiceMessage);
+bot.on(":voice", handleMessage);
+bot.on("message", handleMessage);
 
 bot.catch((err) => {
   const ctx = err.ctx;

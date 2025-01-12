@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "node bot.js"
+    "dev": "node --no-warnings bot.js && echo 'Бот запущен в терминале'"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.11",
