@@ -18,7 +18,7 @@ import { ignoreOld } from "grammy-middlewares";
 dotenv.config();
 
 const devConfig = {
-  model: "gpt-4o-mini",
+  model: "gpt-4.1-mini",
   version: fs.readJSONSync("./package.json").version,
 };
 
