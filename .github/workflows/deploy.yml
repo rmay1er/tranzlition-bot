@@ -23,4 +23,4 @@ jobs:
             cd ./JavaScript/tts_bot
             git pull origin main
             npm ci
-            pm2 restart tts-bot
+            pm2 restart ttsbot
