@@ -15,11 +15,16 @@
     "source-map-support": "^0.5.21"
   },
   "name": "tts_bot",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "main": "bot.js",
   "devDependencies": {},
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "bot",
+    "telegram",
+    "tts",
+    "text-to-speech"
+  ],
+  "author": "Rulsan Mayer",
   "license": "ISC",
   "description": ""
 }
