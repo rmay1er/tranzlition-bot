@@ -1,6 +1,7 @@
 # Telegram Tranzlition-Bot
 
 A Telegram bot built with [Grammy framework](https://grammy.dev/) that leverages OpenAI technologies for seamless multilingual text and voice translation. This bot supports converting text to speech, voice to text transcription, and text translation with AI-powered context understanding.
+Demo: [Tranzlition Bot](https://t.me/ttsranslition_bot) 👈
 
 ---
 
