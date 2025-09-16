@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "tranzlition-bot",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "main": "bot.js",
   "scripts": {
     "dev": "node --no-warnings bot.js && echo 'Бот запущен в терминале'"
