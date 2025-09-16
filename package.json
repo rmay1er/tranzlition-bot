@@ -1,5 +1,8 @@
 {
   "type": "module",
+  "name": "tranzlition-bot",
+  "version": "2.2.2",
+  "main": "bot.js",
   "scripts": {
     "dev": "node --no-warnings bot.js && echo 'Бот запущен в терминале'"
   },
@@ -14,9 +17,6 @@
     "openai": "^4.56.0",
     "source-map-support": "^0.5.21"
   },
-  "name": "tranzlition-bot",
-  "version": "2.2.1",
-  "main": "bot.js",
   "devDependencies": {},
   "keywords": [
     "bot",
