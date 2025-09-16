@@ -20,7 +20,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ./JavaScript/tts_bot
+            mkdir -p ./JavaScript/tranzlition-bot
+            cd ./JavaScript/tranzlition-bot
             git pull origin main
             npm ci
-            pm2 restart ttsbot
+            pm2 start tranzlition-bot

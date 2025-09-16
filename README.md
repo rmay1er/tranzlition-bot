@@ -1,4 +1,4 @@
-# Telegram TTS Bot
+# Telegram Tranzlition-Bot
 
 A Telegram bot built with [Grammy framework](https://grammy.dev/) that leverages OpenAI technologies for seamless multilingual text and voice translation. This bot supports converting text to speech, voice to text transcription, and text translation with AI-powered context understanding.
 
@@ -31,8 +31,8 @@ A Telegram bot built with [Grammy framework](https://grammy.dev/) that leverages
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/tts_bot.git
-cd tts_bot
+git clone https://github.com/rmay1er/tranzlition-bot.git
+cd tranzlition-bot
 ```
 
 ### 2. Install dependencies
@@ -66,14 +66,21 @@ node bot.js
 
 ## Deployment
 
-The project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) for automatic deployment to a server via SSH on every push to the `main` branch.
+This project includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that automates deployment to your server via SSH on every push to the `main` branch.
 
-Before using CI/CD deployment:
+To use the CI/CD pipeline:
 
-- Configure your deployment server with Node.js and PM2.
-- Add your SSH credentials and server info as GitHub secrets (`SSH_HOST`, `SSH_USERNAME`, `SSH_PRIVATE_KEY`).
-- On the server, the bot directory should be at `./JavaScript/tts_bot` or update the deploy script to your path.
-- PM2 should be managing the bot process under the name `ttsbot`.
+- Ensure your deployment server has Node.js and PM2 installed.
+- Store your SSH credentials and server information securely as GitHub Secrets:
+  - `SSH_HOST`: Your server's hostname or IP address.
+  - `SSH_USERNAME`: Username for SSH.
+  - `SSH_PRIVATE_KEY`: SSH private key for authentication.
+- The deployment script will connect to your server, create (if needed) and change into the `./JavaScript/tranzlition-bot` directory, then pull the latest code from the `main` branch.
+- It runs `npm ci` to cleanly install dependencies.
+- The bot process is started or restarted with PM2 under the process name `tranzlition-bot`.
+- Adjust the directory path in the workflow script if your bot resides elsewhere on the server.
+
+This setup enables smooth, automated updates of your bot upon code changes pushed to GitHub.
 
 ---
 
@@ -108,7 +115,7 @@ Before using CI/CD deployment:
 - Ensure your API keys are valid and have proper access permissions.
 - Check server logs (via PM2 or your process manager) for runtime errors.
 - Validate network and firewall settings if the bot cannot reach Telegram or OpenAI APIs.
-- The deployment workflow expects the bot to be run using PM2 with process name `ttsbot`.
+- The deployment workflow expects the bot to be managed using PM2 with the process name `tranzlition-bot`.
 
 ---
 
