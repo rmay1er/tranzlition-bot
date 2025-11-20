@@ -2,22 +2,25 @@
   "type": "module",
   "name": "tranzlition-bot",
   "version": "2.2.3",
-  "main": "bot.js",
+  "main": "src/bot.ts",
   "scripts": {
-    "dev": "node --no-warnings bot.js && echo 'Бот запущен в терминале'"
+    "dev": "bun --no-warnings src/bot.ts",
+    "build": "bun build src/bot.ts --outdir dist --target bun",
+    "type-check": "tsc --noEmit",
+    "diagnostics": "bun run type-check"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.11",
     "ai": "^4.0.22",
     "axios": "^1.7.5",
-    "dotenv": "^16.4.7",
-    "fs-extra": "^11.2.0",
     "grammy": "^1.29.0",
     "grammy-middlewares": "^1.0.11",
-    "openai": "^4.56.0",
-    "source-map-support": "^0.5.21"
+    "openai": "^4.56.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5"
+  },
   "keywords": [
     "bot",
     "telegram",
@@ -26,5 +29,6 @@
   ],
   "author": "Rulsan Mayer",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "private": true
 }
