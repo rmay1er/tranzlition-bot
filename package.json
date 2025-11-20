@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "bun --no-warnings src/bot.ts",
     "start": "bun dist/bot.js",
-    "build": "bun build src/bot.ts --outdir dist --target bun",
+    "build": "bun build src/bot.ts --outdir dist --target bun --sourcemap",
     "type-check": "tsc --noEmit",
     "diagnostics": "bun run type-check"
   },
