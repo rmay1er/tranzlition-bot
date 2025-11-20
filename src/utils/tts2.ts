@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import type { TTSResult } from "../types/bot.js";
+import { logger } from "../utils/logger.js";
 
 export class TextToSpeechTelegram {
   private openai: OpenAI;
@@ -33,7 +34,7 @@ export class TextToSpeechTelegram {
         stream,
       };
     } catch (error) {
-      console.error("Ошибка при конвертации текста в речь:", error);
+      logger.error(error, "Ошибка при конвертации текста в речь:");
       throw error;
     }
   }

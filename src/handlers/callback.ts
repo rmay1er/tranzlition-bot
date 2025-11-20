@@ -4,6 +4,7 @@ import { handleGenerateText } from "./text.js";
 import { LANGUAGES } from "../types/languages.js";
 import type { Instructions } from "../types/bot.js";
 import TextToSpeechTelegram from "../utils/tts2.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Обработчик callback запросов
@@ -48,6 +49,6 @@ export const handleCallbackQuery = async (
       await ctx.replyWithVoice(new InputFile(stream, fileName));
     }
   } catch (error) {
-    console.error("Ошибка в обработке callback_query:", error);
+    logger.error(error, "Ошибка в обработке callback_query:");
   }
 };

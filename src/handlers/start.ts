@@ -3,6 +3,7 @@ import type { CustomContext } from "../types/context.js";
 import { handleGenerateText } from "./text.js";
 import { LANGUAGES } from "../types/languages.js";
 import type { BotConfig, Instructions } from "../types/bot.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Создает клавиатуру для выбора языка
@@ -33,7 +34,7 @@ export const handleStartCommand = async (
     try {
       await ctx.deleteLastMessage();
     } catch (error) {
-      console.error("Последнее сообщение не стартовое");
+      logger.warn("Последнее сообщение не стартовое");
     }
   }
 
@@ -43,7 +44,7 @@ export const handleStartCommand = async (
         parse_mode: "HTML",
       });
     } catch (error) {
-      console.error("Последнее сообщение не имеет кнопок чтобы его изменять.");
+      logger.warn("Последнее сообщение не имеет кнопок чтобы его изменять.");
     }
   }
 

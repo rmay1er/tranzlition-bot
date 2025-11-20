@@ -7,6 +7,7 @@ import {
   HttpError,
 } from "grammy";
 import { ignoreOld } from "grammy-middlewares";
+import { logger } from "./utils/logger.js";
 
 import {
   loadConfig,
@@ -85,18 +86,18 @@ bot.on("message", async (ctx) => {
 // Обработка ошибок
 bot.catch((err) => {
   const ctx = err.ctx;
-  console.error(`Error while handling update ${ctx.update.update_id}:`);
+  logger.error(`Error while handling update ${ctx.update.update_id}:`);
   const e = err.error;
 
   if (e instanceof GrammyError) {
-    console.error("Error in request:", e.description);
+    logger.error(e, "Error in request:");
   } else if (e instanceof HttpError) {
-    console.error("Could not contact Telegram:", e);
+    logger.error(e, "Could not contact Telegram:");
   } else {
-    console.error("Unknown error:", e);
+    logger.error(e, "Unknown error:");
   }
 });
 
 // Запуск бота
-console.log("🤖 Бот запущен...");
+logger.info("🤖 Бот запущен...");
 bot.start();

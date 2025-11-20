@@ -4,6 +4,7 @@ import { handleGenerateText } from "./text.js";
 import { LANGUAGES } from "../types/languages.js";
 import type { Instructions } from "../types/bot.js";
 import { VoiceToSpeech } from "../utils/voiceToSpeech.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Обработчик получения AI ответа
@@ -13,7 +14,7 @@ const getAiResponse = async (
   response: string,
   instructions: Instructions,
 ): Promise<void> => {
-  if (!ctx.session.langToTranslate) {
+  if (!ctx.session.langToTranslate?.code) {
     throw new Error("Язык перевода не установлен");
   }
 
@@ -69,7 +70,7 @@ export const handleMessage = async (
         parse_mode: "HTML",
       } as any);
     } catch (error) {
-      console.error("Невозможно редактировать одинаковый текст.");
+      logger.warn("Невозможно редактировать одинаковый текст.");
     }
     return;
   }
@@ -81,13 +82,13 @@ export const handleMessage = async (
         parse_mode: "HTML",
       });
     } catch (error) {
-      console.error("Последнее сообщение не имеет кнопок чтобы его изменять.");
+      logger.warn("Последнее сообщение не имеет кнопок чтобы его изменять.");
     }
   } else {
     try {
       await ctx.deleteLastMessage();
     } catch (error) {
-      console.error("Последнее сообщение не стартовое");
+      logger.warn("Последнее сообщение не стартовое");
     }
   }
 
@@ -108,6 +109,6 @@ export const handleMessage = async (
 
     await getAiResponse(ctx, response, instructions);
   } catch (error) {
-    console.error("Ошибка при обработке сообщения:", error);
+    logger.error(error, "Ошибка при обработке сообщения:");
   }
 };

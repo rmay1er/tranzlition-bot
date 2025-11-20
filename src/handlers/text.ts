@@ -5,6 +5,7 @@ import type {
   TextGenerationOptions,
   GenerateTextResult,
 } from "../types/bot.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * Обработчик генерации текста с помощью AI
@@ -22,7 +23,7 @@ export const handleGenerateText = async (
     });
     return text;
   } catch (error) {
-    console.error("Ошибка генерации текста:", error);
+    logger.error(error, "Ошибка генерации текста:");
     throw error;
   }
 };
@@ -37,7 +38,7 @@ export const generateTextWithOptions = async (
     const result = await generateText(options);
     return result;
   } catch (error) {
-    console.error("Ошибка генерации текста:", error);
+    logger.error(error, "Ошибка генерации текста:");
     throw error;
   }
 };

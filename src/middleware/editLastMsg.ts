@@ -1,4 +1,5 @@
 import type { CustomContext } from "../types/context.js";
+import { logger } from "../utils/logger.js";
 
 export const lastMsgMiddleware = async (
   ctx: CustomContext,
@@ -17,10 +18,10 @@ export const lastMsgMiddleware = async (
           options,
         );
       } else {
-        console.error("Отсутствует ID последнего сообщения");
+        logger.warn("Отсутствует ID последнего сообщения");
       }
     } catch (error) {
-      console.error("Ошибка при редактировании сообщения");
+      logger.error("Ошибка при редактировании сообщения");
       throw error;
     }
   };
@@ -31,10 +32,10 @@ export const lastMsgMiddleware = async (
         await ctx.api.deleteMessage(ctx.chat!.id, ctx.session.lastMessage.id);
         ctx.session.lastMessage.id = null; // Сбрасываем ID сообщения
       } else {
-        console.error("Отсутствует ID последнего сообщения для удаления");
+        logger.warn("Отсутствует ID последнего сообщения для удаления");
       }
     } catch (error) {
-      console.error("Ошибка при удалении сообщения");
+      logger.error("Ошибка при удалении сообщения");
       throw error;
     }
   };

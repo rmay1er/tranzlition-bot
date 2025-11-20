@@ -1,6 +1,7 @@
 import axios from "axios";
 import { OpenAI } from "openai";
 import type { VoiceFileInfo } from "../types/bot.js";
+import { logger } from "../utils/logger.js";
 
 export class VoiceToSpeech {
   private openai: OpenAI;
@@ -34,7 +35,7 @@ export class VoiceToSpeech {
 
       return transcription.text;
     } catch (error) {
-      console.error("Ошибка в ответе:", error);
+      logger.error(error, "Ошибка в ответе:");
       throw error;
     }
   }
