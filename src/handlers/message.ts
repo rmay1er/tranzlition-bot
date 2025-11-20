@@ -14,7 +14,7 @@ const getAiResponse = async (
   response: string,
   instructions: Instructions,
 ): Promise<void> => {
-  if (!ctx.session.langToTranslate?.code) {
+  if (!ctx.session.langToTranslate) {
     throw new Error("Язык перевода не установлен");
   }
 
