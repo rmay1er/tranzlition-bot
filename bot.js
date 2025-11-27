@@ -11,11 +11,8 @@ import { openai } from "@ai-sdk/openai";
 import VoiceToSpeech from "./utils/voiceToSpeech.js";
 import TextToSpeechTelegram from "./utils/tts2.js";
 import { lastMsgMiddleware } from "./middleware/editLastMsg.js";
-import dotenv from "dotenv";
 import fs from "fs-extra";
 import { ignoreOld } from "grammy-middlewares";
-
-dotenv.config();
 
 const devConfig = {
   model: "gpt-4.1-mini",
@@ -27,7 +24,7 @@ const instructions = fs.readJSONSync("./instructions.json");
 const tts = new TextToSpeechTelegram(process.env.OPENAI_API_KEY);
 const voiceToSpeech = new VoiceToSpeech(
   process.env.OPENAI_API_KEY,
-  process.env.TELEGRAM_BOT_API_KEY,
+  process.env.BOT_API_KEY,
 );
 
 const bot = new Bot(process.env.BOT_TOKEN);
