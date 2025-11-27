@@ -1,3 +1,18 @@
+# Используем официальный образ Bun для сборки
+FROM oven/bun:1.3-alpine AS builder
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем package.json и bun.lock для установки зависимостей
+COPY package.json bun.lock* ./
+
+# Устанавливаем все зависимости (включая dev)
+RUN bun install --frozen-lockfile
+
+# Копируем исходный код
+COPY . .
+
 # Финальный образ для продакшена
 FROM oven/bun:1.3-alpine AS runtime
 
@@ -5,10 +20,10 @@ FROM oven/bun:1.3-alpine AS runtime
 WORKDIR /app
 
 # Копируем только необходимые файлы из стадии сборки
-COPY /package.json /app/package.json
-COPY /bot.js /app/bot.js
-COPY /node_modules /app/node_modules
-COPY /instructions.json /app/instructions.json
+COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/bot.js /app/bot.js
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/instructions.json /app/instructions.json
 
 # Запускаем бота в продакшене
 CMD ["bun", "run", "dev"]
