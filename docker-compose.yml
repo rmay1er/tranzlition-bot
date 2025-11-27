@@ -6,8 +6,9 @@ services:
     container_name: tranzlition-bot
     restart: unless-stopped
     environment:
-      - NODE_ENV=production
-      - LOG_LEVEL=info
+      NODE_ENV: production
+      BOT_TOKEN: ${BOT_TOKEN}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
     volumes:
       - ./logs:/app/logs
     working_dir: /app
