@@ -13,4 +13,4 @@ services:
     volumes:
       - ./logs:/app/logs
     working_dir: /app
-    command: bun run start
+    command: bun run dev
