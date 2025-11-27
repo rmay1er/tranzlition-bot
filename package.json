@@ -4,7 +4,7 @@
   "version": "2.2.3",
   "main": "bot.js",
   "scripts": {
-    "dev": "node --no-warnings bot.js && echo 'Бот запущен в терминале'"
+    "dev": "bun run bot.js"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.11",

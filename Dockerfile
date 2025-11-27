@@ -13,9 +13,6 @@ RUN bun install --frozen-lockfile
 # Копируем исходный код
 COPY . .
 
-# Собираем проект в JavaScript
-RUN bun run build
-
 # Финальный образ для продакшена
 FROM oven/bun:1.3-alpine AS runtime
 
@@ -24,9 +21,9 @@ WORKDIR /app
 
 # Копируем только необходимые файлы из стадии сборки
 COPY --from=builder /app/package.json /app/package.json
-COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/bot.js /app/bot.js
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/instructions.json /app/instructions.json
 
 # Запускаем бота в продакшене
-CMD ["bun", "run", "start"]
+CMD ["bun", "run", "dev"]
