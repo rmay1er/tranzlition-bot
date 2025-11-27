@@ -30,7 +30,7 @@ const voiceToSpeech = new VoiceToSpeech(
   process.env.TELEGRAM_BOT_API_KEY,
 );
 
-const bot = new Bot(process.env.BOT_API_KEY);
+const bot = new Bot(process.env.BOT_TOKEN);
 
 bot.api.setMyCommands([
   { command: "start", description: "Главное меню выбора языка" },
