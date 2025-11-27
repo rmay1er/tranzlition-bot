@@ -22,6 +22,8 @@ WORKDIR /app
 # Копируем только необходимые файлы из стадии сборки
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/bot.js /app/bot.js
+COPY --from=builder /app/utils /app/utils
+COPY --from=builder /app/middleware /app/middleware
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/instructions.json /app/instructions.json
 
